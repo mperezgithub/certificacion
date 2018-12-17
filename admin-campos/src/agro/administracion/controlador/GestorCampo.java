@@ -9,12 +9,12 @@ import agro.administracion.Campo;
 import agro.administracion.Lote;
 import agro.administracion.TipoSuelo;
 import agro.administracion.dao.TipoSueloDao;
-import agro.administracion.dao.impl.TipoSueloDaoImpl;
 import agro.administracion.ui.campo.registracion.Registra_Campo_Form;
 import agro.administracion.dao.CampoDao;
 import agro.administracion.dao.LoteDao;
 import agro.administracion.dao.impl.CampoDaoImpl;
 import agro.administracion.dao.impl.LoteDaoImpl;
+import agro.administracion.dao.impl.TipoSueloDaoHibernateImpl;
 import org.hibernate.SessionFactory;
 
 /**
@@ -22,7 +22,7 @@ import org.hibernate.SessionFactory;
  */
 public class GestorCampo {
 
-    private final SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
     TipoSueloDao tipoSueloDao;
     CampoDao campoDao;
     LoteDao loteDao;
@@ -34,7 +34,7 @@ public class GestorCampo {
      */
     public GestorCampo(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-        this.tipoSueloDao = new TipoSueloDaoImpl(sessionFactory);
+        this.tipoSueloDao = new TipoSueloDaoHibernateImpl(sessionFactory);
         this.campoDao = new CampoDaoImpl(sessionFactory);
         this.loteDao = new LoteDaoImpl(sessionFactory);
 
@@ -84,31 +84,41 @@ public class GestorCampo {
      * Inicializar datos de tipo de suelo
      */
     private void inicializarDatosTipoSuelo() {
-        //Guardar tipo suelo 1,2,3,4,5
         TipoSuelo tipoSuelo = new TipoSuelo();
-        tipoSuelo.setId(1);
-        tipoSuelo.setDescripcion("TIPO I");
-        this.guardarTipoSuelo(tipoSuelo);
 
-        tipoSuelo = new TipoSuelo();
-        tipoSuelo.setId(2);
-        tipoSuelo.setDescripcion("TIPO II");
-        this.guardarTipoSuelo(tipoSuelo);
+        if (tipoSueloDao.buscarPorId(1) == null) {
+            tipoSuelo.setId(1);
+            tipoSuelo.setDescripcion("TIPO I");
+            this.guardarTipoSuelo(tipoSuelo);
+        }
 
-        tipoSuelo = new TipoSuelo();
-        tipoSuelo.setId(3);
-        tipoSuelo.setDescripcion("TIPO III");
-        this.guardarTipoSuelo(tipoSuelo);
+        if (tipoSueloDao.buscarPorId(2) == null) {
+            tipoSuelo = new TipoSuelo();
+            tipoSuelo.setId(2);
+            tipoSuelo.setDescripcion("TIPO II");
+            this.guardarTipoSuelo(tipoSuelo);
+        }
 
-        tipoSuelo = new TipoSuelo();
-        tipoSuelo.setId(4);
-        tipoSuelo.setDescripcion("TIPO IV");
-        this.guardarTipoSuelo(tipoSuelo);
+        if (tipoSueloDao.buscarPorId(3) == null) {
+            tipoSuelo = new TipoSuelo();
+            tipoSuelo.setId(3);
+            tipoSuelo.setDescripcion("TIPO III");
+            this.guardarTipoSuelo(tipoSuelo);
+        }
 
-        tipoSuelo = new TipoSuelo();
-        tipoSuelo.setId(5);
-        tipoSuelo.setDescripcion("TIPO V");
-        this.guardarTipoSuelo(tipoSuelo);
+        if (tipoSueloDao.buscarPorId(4) == null) {
+            tipoSuelo = new TipoSuelo();
+            tipoSuelo.setId(4);
+            tipoSuelo.setDescripcion("TIPO IV");
+            this.guardarTipoSuelo(tipoSuelo);
+        }
+
+        if (tipoSueloDao.buscarPorId(5) == null) {
+            tipoSuelo = new TipoSuelo();
+            tipoSuelo.setId(5);
+            tipoSuelo.setDescripcion("TIPO V");
+            this.guardarTipoSuelo(tipoSuelo);
+        }
     }
 
     /**
